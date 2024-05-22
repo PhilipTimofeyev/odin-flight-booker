@@ -3,11 +3,11 @@
   <%= select_tag(:departure_airport, options_for_select(@airport_options)) %>
   <%= select_tag(:arrival_airport, options_for_select(@airport_options)) %>
   <%= form.select :num_of_passengers, [1, 2, 3, 4] %>
-  <%= select_tag(:date, options_for_select(@date_date), :include_blank => true) %>
+  <%= select_tag(:date, options_for_select(@flight_date), :include_blank => true) %>
   <%= form.submit "Search" %>
 <% end %>
 
-<%= @hmm %>
+<%= @flight_date %>
 
 <% if @flights %>
 	<% @flights.map do |flight|%>

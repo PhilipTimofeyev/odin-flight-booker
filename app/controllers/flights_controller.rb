@@ -2,11 +2,10 @@ class FlightsController < ApplicationController
 
 	def index
 		@airport_options = Airport.all.map { |f| [f.code, f.id] }
-		@date_date = Flight.all.map { |f| [f.date, f.date] }
+		@flight_date = Flight.all.map { |f| [f.date, f.date] }.uniq
 
 		if search_params.present?
 			@flights = Flight.where(filter_empty_params).to_a
-			# @flights = Flight.where("date like ?", "#{params[:date]}%").to_a
 			@hmm = params[:date]
 		end
 	end
