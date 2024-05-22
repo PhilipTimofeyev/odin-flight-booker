@@ -3,19 +3,21 @@
   <%= select_tag(:departure_airport, options_for_select(@airport_options)) %>
   <%= select_tag(:arrival_airport, options_for_select(@airport_options)) %>
   <%= form.select :num_of_passengers, [1, 2, 3, 4] %>
-  <%= select_tag(:start, options_for_select(@start_date)) %>
+  <%= select_tag(:date, options_for_select(@date_date), :include_blank => true) %>
   <%= form.submit "Search" %>
 <% end %>
 
+<%= @hmm %>
 
-<% @flights.map do |flight|%>
-<ul>
-<li> <%= "Flight Number: #{flight.id}"%> </li>
-<li> <%= "Departure Airport: #{flight.departure_airport.code}"%> </li>
-<li> <%= "Arrival Airport: #{flight.arrival_airport.code}"%> </li>
-<li> <%= "Date: #{flight.start.strftime("%m-%d-%y at %H:%M %p")}"%> </li>
-<li> <%= "Duration: ~#{flight.flight_duration/60} hours"%> </li>
-</ul>
+<% if @flights %>
+	<% @flights.map do |flight|%>
+		<ul>
+		<li> <%= "Flight Number: #{flight.id}"%> </li>
+		<li> <%= "Departure Airport: #{flight.departure_airport.code}"%> </li>
+		<li> <%= "Arrival Airport: #{flight.arrival_airport.code}"%> </li>
+		<li> <%= "Date: #{flight.date.strftime("%m-%d-%y")}"%> </li>
+		<li> <%= "Date: #{flight.time.strftime("%H:%M %p")}"%> </li>
+		<li> <%= "Duration: ~#{flight.flight_duration/60} hours"%> </li>
+		</ul>
+	<% end %>
 <% end %>
-
-
