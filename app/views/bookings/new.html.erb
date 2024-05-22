@@ -1,5 +1,6 @@
-<h3> Flight Info </h3>
 
+<div style="margin-left:20px;">
+<h3> Flight Info </h3>
 <table border="2" style="width:40%;padding:10px;">
 	<tr>
     <th><u>Flight #</u></th>
@@ -9,14 +10,23 @@
 	  <th><u>Number of Passengers</u></th>
 	</tr>
   <tr>
-    <td><%=@flight.id%></td>
-    <td><%=@flight.departure_airport.code%></td>
-    <td><%=@flight.arrival_airport.code%></td>
-    <td><%="~ #{@flight.flight_duration / 60} hours"%></td>
+    <td><%=@seleced_flight.id%></td>
+    <td><%=@seleced_flight.departure_airport.code%></td>
+    <td><%=@seleced_flight.arrival_airport.code%></td>
+    <td><%="~ #{@seleced_flight.flight_duration / 60} hours"%></td>
     <td><%=@num_of_passengers%></td>
   </tr>
 </table>
-<%= form_with model: @booking, method: :get do |form| %>
-  <%= form.label :query, "Search for:" %>
-  <%= form.submit "Search" %>
+
+<%= form_with model: @booking, method: :post do |form| %>
+  <div style="padding:20px 0px;">
+    <%= form.label :name, "Name:" %>
+    <%= form.text_field :name %>
+    <%= form.label :email, "Email:" %>
+    <%= form.text_field :email %>
+    <%= hidden_field_tag 'flight[flight_id]', @seleced_flight[:id]  %>
+  </div>
+    <p> <%= form.submit "Book Flight" %> </p>
 <% end %>
+
+</div>
