@@ -2,26 +2,23 @@ class BookingsController < ApplicationController
 	def new
 		@booking = Booking.new
 		@num_of_passengers = flight_params[:num_of_passengers].to_i
+
 		@num_of_passengers.times do
 			@booking.passengers.build
 		end
-		# debugger
-
 
 		@seleced_flight = Flight.all.find(flight_params[:flight_id])
 	end
 
 	def create
-		# debugger
-		# passenger = Passenger.new booking_params
-		booking = Booking.create(booking_params)
-		debugger
-		# debugger
-		# passenger = Passenger.new(booking_params)
-		# @new_booking = passenger.create_booking
-		# selected_flight = Flight.all.find(flight_params[:flight_id])
-		# @new_booking.flight=selected_flight
-		# debugger
+		selected_flight = Flight.all.find(flight_params[:flight_id])
+
+		booking = Booking.new(booking_params)
+		booking.flight=selected_flight
+
+		if booking.save
+			redirect_to bookings_path
+		end
 	end
 
 	private
