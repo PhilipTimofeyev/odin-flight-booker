@@ -25,8 +25,9 @@
         <%= sub_form.text_field :name %>
         <%= sub_form.label :email, "Email:" %>
         <%= sub_form.text_field :email %>
-        <%= hidden_field_tag 'flight[flight_id]', @seleced_flight[:id]  %>
       <% end %>
+      <%= hidden_field_tag 'booking[flight_id]', @seleced_flight[:id]  %>
+      <%= hidden_field_tag 'booking[num_of_passengers]', @num_of_passengers  %>
       </div>
     <p> <%= form.submit "Book Flight" %> </p>
 <% end %>

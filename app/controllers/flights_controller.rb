@@ -1,7 +1,6 @@
 class FlightsController < ApplicationController
 
 	def index
-		# @flights = Flight.all
 		@airport_options = Airport.all.map { |f| [f.code, f.id] }
 		@flight_date = Flight.all.map { |f| [f.date, f.date] }.uniq
 
