@@ -10,8 +10,11 @@
 <%= @hmm %>
 
 <% if @flights %>
+<%= form_with url: "/bookings/new", method: :post do |form| %>
 	<% @flights.map do |flight|%>
 		<ul>
+			<%= radio_button_tag "flight[select_flight]", flight%>
+
 		<li> <%= "Flight Number: #{flight.id}"%> </li>
 		<li> <%= "Departure Airport: #{flight.departure_airport.code}"%> </li>
 		<li> <%= "Arrival Airport: #{flight.arrival_airport.code}"%> </li>
@@ -20,4 +23,8 @@
 		<li> <%= "Duration: ~#{flight.flight_duration/60} hours"%> </li>
 		</ul>
 	<% end %>
+	<%= form.submit "Select" %>
 <% end %>
+<% end %>
+
+

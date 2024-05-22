@@ -10,6 +10,10 @@ class FlightsController < ApplicationController
 		end
 	end
 
+	def new
+		@select_flight = params
+	end
+
 	private
 
 	def search_params
