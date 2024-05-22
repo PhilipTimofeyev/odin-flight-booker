@@ -6,13 +6,13 @@ class FlightsController < ApplicationController
 
 		if search_params.present?
 			@flights = Flight.where(filter_empty_params).to_a
-			@hmm = params[:date]
+			@hmm = params
 		end
 	end
 
 	private
-	def search_params
 
+	def search_params
 		params.permit(:departure_airport, :arrival_airport, :date)
 	end
 

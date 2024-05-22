@@ -1,13 +1,13 @@
-<%= form_with url: "/flights", method: :get do |form| %>
+<%= form_with model: @flight, method: :get do |form| %>
   <%= form.label :query, "Search for:" %>
   <%= select_tag(:departure_airport, options_for_select(@airport_options)) %>
-  <%= select_tag(:arrival_airport, options_for_select(@airport_options)) %>
+  <%= select_tag(:arrival_airport, options_for_select(@airport_options.sort)) %>
   <%= form.select :num_of_passengers, [1, 2, 3, 4] %>
   <%= select_tag(:date, options_for_select(@flight_date), :include_blank => true) %>
   <%= form.submit "Search" %>
 <% end %>
 
-<%= @flight_date %>
+<%= @hmm %>
 
 <% if @flights %>
 	<% @flights.map do |flight|%>
@@ -16,7 +16,7 @@
 		<li> <%= "Departure Airport: #{flight.departure_airport.code}"%> </li>
 		<li> <%= "Arrival Airport: #{flight.arrival_airport.code}"%> </li>
 		<li> <%= "Date: #{flight.date.strftime("%m-%d-%y")}"%> </li>
-		<li> <%= "Date: #{flight.time.strftime("%H:%M %p")}"%> </li>
+		<li> <%= "Time: #{flight.time.strftime("%H:%M %p")}"%> </li>
 		<li> <%= "Duration: ~#{flight.flight_duration/60} hours"%> </li>
 		</ul>
 	<% end %>
