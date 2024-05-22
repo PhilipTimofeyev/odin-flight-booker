@@ -10,10 +10,10 @@
 <%= @hmm %>
 
 <% if @flights %>
-<%= form_with url: "/bookings/new", method: :post do |form| %>
+<%= form_with url: "/bookings/new", method: :get do |form| %>
 	<% @flights.map do |flight|%>
 		<ul>
-			<%= radio_button_tag "flight[select_flight]", flight%>
+			<%= radio_button_tag "flight[selected_flight]", flight%>
 
 		<li> <%= "Flight Number: #{flight.id}"%> </li>
 		<li> <%= "Departure Airport: #{flight.departure_airport.code}"%> </li>
