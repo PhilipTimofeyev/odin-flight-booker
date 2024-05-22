@@ -12,8 +12,8 @@
 <%= form_with url: "/bookings/new", method: :get do |form| %>
 	<% @flights.map do |flight|%>
 		<ul>
-			<%= radio_button_tag "flight[flight_id]", flight.id%>
-			<%= hidden_field_tag 'flight[num_of_passengers]', @passengers[:num_of_passengers]  %>
+			<%= radio_button_tag "booking[flight_id]", flight.id%>
+			<%= hidden_field_tag 'booking[num_of_passengers]', @passengers[:num_of_passengers]  %>
 
 		<li> <%= "Flight Number: #{flight.id}"%> </li>
 		<li> <%= "Departure Airport: #{flight.departure_airport.code}"%> </li>

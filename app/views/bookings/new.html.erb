@@ -1,0 +1,22 @@
+<h3> Flight Info </h3>
+
+<table border="2" style="width:40%;padding:10px;">
+	<tr>
+    <th><u>Flight #</u></th>
+	  <th><u>Departure Airport</u></th>
+	  <th><u>Arrival Airport</u></th>
+	  <th><u>Duration</u></th>
+	  <th><u>Number of Passengers</u></th>
+	</tr>
+  <tr>
+    <td><%=@flight.id%></td>
+    <td><%=@flight.departure_airport.code%></td>
+    <td><%=@flight.arrival_airport.code%></td>
+    <td><%="~ #{@flight.flight_duration / 60} hours"%></td>
+    <td><%=@num_of_passengers%></td>
+  </tr>
+</table>
+<%= form_with model: @booking, method: :get do |form| %>
+  <%= form.label :query, "Search for:" %>
+  <%= form.submit "Search" %>
+<% end %>
