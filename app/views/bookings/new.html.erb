@@ -1,35 +1,39 @@
 
 <div style="margin-left:20px;">
-<h3> Flight Info </h3>
-<table border="2" style="width:40%;padding:10px;">
-	<tr>
-    <th><u>Flight #</u></th>
-	  <th><u>Departure Airport</u></th>
-	  <th><u>Arrival Airport</u></th>
-	  <th><u>Duration</u></th>
-	  <th><u>Number of Passengers</u></th>
-	</tr>
-  <tr>
-    <td><%=@seleced_flight.id%></td>
-    <td><%=@seleced_flight.departure_airport.code%></td>
-    <td><%=@seleced_flight.arrival_airport.code%></td>
-    <td><%="~ #{@seleced_flight.flight_duration / 60} hours"%></td>
-    <td><%=@num_of_passengers%></td>
-  </tr>
-</table>
+  <center>
+    <h3> Flight Info </h3>
 
-<%= form_with model: @booking, method: :post do |form| %>
-    <div style="padding:20px 0px;">
-      <%= form.fields_for :passengers do |sub_form| %>
-        <%= sub_form.label :name, "Name:" %>
-        <%= sub_form.text_field :name %>
-        <%= sub_form.label :email, "Email:" %>
-        <%= sub_form.text_field :email %>
-      <% end %>
-      <%= hidden_field_tag 'booking[flight_id]', @seleced_flight[:id]  %>
-      <%= hidden_field_tag 'booking[num_of_passengers]', @num_of_passengers  %>
-      </div>
-    <p> <%= form.submit "Book Flight" %> </p>
-<% end %>
+    <table border="2" style="width:40%;padding:10px;">
+    	<tr>
+        <th><u>Flight #</u></th>
+    	  <th><u>Departure Airport</u></th>
+    	  <th><u>Arrival Airport</u></th>
+        <th><u>Departure Time</u></th>
+    	  <th><u>Duration</u></th>
+    	  <th><u>Number of Passengers</u></th>
+    	</tr>
+      <tr>
+        <td><%=@seleced_flight.id%></td>
+        <td><%=@seleced_flight.departure_airport.code%></td>
+        <td><%=@seleced_flight.arrival_airport.code%></td>
+        <td><%=@seleced_flight.time.strftime("%H:%M %p")%></td>
+        <td><%="~ #{@seleced_flight.flight_duration / 60} hours"%></td>
+        <td><%=@num_of_passengers%></td>
+      </tr>
+    </table>
 
+    <%= form_with model: @booking, method: :post do |form| %>
+        <div style="padding:20px 0px;">
+          <%= form.fields_for :passengers do |sub_form| %>
+            <%= sub_form.label :name, "Name:" %>
+            <%= sub_form.text_field :name %>
+            <%= sub_form.label :email, "Email:" %>
+            <%= sub_form.email_field :email %>
+          <% end %>
+          <%= hidden_field_tag 'booking[flight_id]', @seleced_flight[:id]  %>
+          <%= hidden_field_tag 'booking[num_of_passengers]', @num_of_passengers  %>
+          </div>
+        <p> <%= form.submit "Book Flight" %> </p>
+    <% end %>
+  </center>
 </div>

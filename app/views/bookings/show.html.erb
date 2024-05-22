@@ -1,34 +1,42 @@
+<div style="margin-left:20px;">
+	<center>
+	<h1> Booking Num: <%=@booking.id%> </h1>
 
-<h3> Flight Info </h3>
-<table border="2" style="width:40%;padding:10px;">
-	<tr>
-    <th><u>Flight #</u></th>
-	  <th><u>Departure Airport</u></th>
-	  <th><u>Arrival Airport</u></th>
-	  <th><u>Duration</u></th>
-	  <th><u>Number of Passengers</u></th>
-	</tr>
-  <tr>
-    <td><%=@seleced_flight.id%></td>
-    <td><%=@seleced_flight.departure_airport.code%></td>
-    <td><%=@seleced_flight.arrival_airport.code%></td>
-    <td><%="~ #{@seleced_flight.flight_duration / 60} hours"%></td>
-    <td><%=@booking.num_of_passengers%></td>
-  </tr>
-</table>
+	<h3> Flight Info </h3>
+
+	<table border="2" style="width:40%;padding:10px;">
+		<tr>
+	    <th><u>Flight #</u></th>
+		  <th><u>Departure Airport</u></th>
+		  <th><u>Arrival Airport</u></th>
+		  <th><u>Departure Time</u></th>
+		  <th><u>Duration</u></th>
+		  <th><u>Number of Passengers</u></th>
+		</tr>
+	  <tr>
+	    <td><%=@seleced_flight.id%></td>
+	    <td><%=@seleced_flight.departure_airport.code%></td>
+	    <td><%=@seleced_flight.arrival_airport.code%></td>
+	    <td><%=@seleced_flight.time.strftime("%H:%M %p")%></td>
+	    <td><%="~ #{@seleced_flight.flight_duration / 60} hours"%></td>
+	    <td><%=@booking.num_of_passengers%></td>
+	  </tr>
+	</table>
 
 
-<h3> Passengers Info </h3>
+	<h3> Passengers Info </h3>
 
-<% @passengers.map do |passenger|%>
-<table border="2" style="width:40%;padding:10px;">
-	<tr>
-    <th><u>Name</u></th>
-	  <th><u>Email</u></th>
-	</tr>
-  <tr>
-    <td><%=passenger.name%></td>
-    <td><%=passenger.email%></td>
-  </tr>
-</table>
-<% end %>
+	<% @passengers.map do |passenger|%>
+	<table border="2" style="width:40%;padding:10px;">
+		<tr>
+	    <th><u>Name</u></th>
+		  <th><u>Email</u></th>
+		</tr>
+	  <tr>
+	    <td><%=passenger.name%></td>
+	    <td><%=passenger.email%></td>
+	  </tr>
+	</table>
+	<% end %>
+	</center>
+</div>

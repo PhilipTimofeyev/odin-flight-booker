@@ -1,11 +1,23 @@
 <%= form_with model: @flight, method: :get do |form| %>
-  <%= form.label :query, "Search for:" %>
-  <%= select_tag 'flight[departure_airport]', options_for_select(@airport_options) %>
-  <%= select_tag 'flight[arrival_airport]', options_for_select(@airport_options.sort) %>
-  <%= label_tag(:num_of_passengers, "Number of Passengers") %>
-  <%= select_tag  'flight[num_of_passengers]', options_for_select([1, 2, 3, 4]) %>
-  <%= select_tag 'flight[date]', options_for_select(@flight_date), :include_blank => true %>
+	<ul>
+  	<%= form.label :query, "Departure airport:" %>
+  	<%= select_tag 'flight[departure_airport]', options_for_select(@airport_options) %>
+	</ul>
+	<ul>
+  	<%= form.label :query, "Arrival airport:" %>
+  	<%= select_tag 'flight[arrival_airport]', options_for_select(@airport_options.sort) %>
+	</ul>
+	<ul>	
+  	<%= label_tag(:num_of_passengers, "Number of Passengers") %>
+  	<%= select_tag  'flight[num_of_passengers]', options_for_select([1, 2, 3, 4]) %>
+	</ul>
+	<ul>
+  	<%= form.label :query, "Date:" %>
+  	<%= select_tag 'flight[date]', options_for_select(@flight_date), :include_blank => true %>
+	</ul>
+	<ul>
   <%= form.submit "Search" %>
+</ul>
 <% end %>
 
 <% if @flights %>
