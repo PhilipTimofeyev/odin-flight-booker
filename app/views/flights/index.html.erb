@@ -1,19 +1,19 @@
 <%= form_with model: @flight, method: :get do |form| %>
   <%= form.label :query, "Search for:" %>
-  <%= select_tag(:departure_airport, options_for_select(@airport_options)) %>
-  <%= select_tag(:arrival_airport, options_for_select(@airport_options.sort)) %>
-  <%= form.select :num_of_passengers, [1, 2, 3, 4] %>
-  <%= select_tag(:date, options_for_select(@flight_date), :include_blank => true) %>
+  <%= select_tag 'flight[departure_airport]', options_for_select(@airport_options) %>
+  <%= select_tag 'flight[arrival_airport]', options_for_select(@airport_options.sort) %>
+  <%= label_tag(:num_of_passengers, "Number of Passengers") %>
+  <%= select_tag  'flight[num_of_passengers]', options_for_select([1, 2, 3, 4]) %>
+  <%= select_tag 'flight[date]', options_for_select(@flight_date), :include_blank => true %>
   <%= form.submit "Search" %>
 <% end %>
-
-<%= @hmm %>
 
 <% if @flights %>
 <%= form_with url: "/bookings/new", method: :get do |form| %>
 	<% @flights.map do |flight|%>
 		<ul>
-			<%= radio_button_tag "flight[selected_flight]", flight%>
+			<%= radio_button_tag "flight[flight_id]", flight.id%>
+			<%= hidden_field_tag 'flight[num_of_passengers]', @passengers[:num_of_passengers]  %>
 
 		<li> <%= "Flight Number: #{flight.id}"%> </li>
 		<li> <%= "Departure Airport: #{flight.departure_airport.code}"%> </li>
@@ -24,7 +24,7 @@
 		</ul>
 	<% end %>
 	<%= form.submit "Select" %>
-<% end %>
+	<% end %>
 <% end %>
 
 
