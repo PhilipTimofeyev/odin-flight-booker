@@ -13,11 +13,11 @@
     	  <th><u>Number of Passengers</u></th>
     	</tr>
       <tr>
-        <td><%=@seleced_flight.id%></td>
-        <td><%=@seleced_flight.departure_airport.code%></td>
-        <td><%=@seleced_flight.arrival_airport.code%></td>
-        <td><%=@seleced_flight.time.strftime("%H:%M %p")%></td>
-        <td><%="~ #{@seleced_flight.flight_duration / 60} hours"%></td>
+        <td><%=@selected_flight.id%></td>
+        <td><%=@selected_flight.departure_airport.code%></td>
+        <td><%=@selected_flight.arrival_airport.code%></td>
+        <td><%=@selected_flight.time.strftime("%H:%M %p")%></td>
+        <td><%="~ #{@selected_flight.flight_duration / 60} hours"%></td>
         <td><%=@num_of_passengers%></td>
       </tr>
     </table>
@@ -25,12 +25,14 @@
     <%= form_with model: @booking, method: :post do |form| %>
         <div style="padding:20px 0px;">
           <%= form.fields_for :passengers do |sub_form| %>
+          <p>
             <%= sub_form.label :name, "Name:" %>
             <%= sub_form.text_field :name %>
             <%= sub_form.label :email, "Email:" %>
             <%= sub_form.email_field :email %>
+          </p>
           <% end %>
-          <%= hidden_field_tag 'booking[flight_id]', @seleced_flight[:id]  %>
+          <%= hidden_field_tag 'booking[flight_id]', @selected_flight[:id]  %>
           <%= hidden_field_tag 'booking[num_of_passengers]', @num_of_passengers  %>
           </div>
         <p> <%= form.submit "Book Flight" %> </p>

@@ -7,7 +7,7 @@ class BookingsController < ApplicationController
 			@booking.passengers.build
 		end
 
-		@seleced_flight = Flight.all.find(booking_params[:flight_id])
+		@selected_flight = Flight.all.find(booking_params[:flight_id])
 	end
 
 	def create
