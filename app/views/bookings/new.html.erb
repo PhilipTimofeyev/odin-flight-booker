@@ -22,6 +22,7 @@
       </tr>
     </table>
 
+
     <%= form_with model: @booking, method: :post do |form| %>
         <div style="padding:20px 0px;">
           <%= form.fields_for :passengers do |sub_form| %>
@@ -31,6 +32,15 @@
             <%= sub_form.label :email, "Email:" %>
             <%= sub_form.email_field :email %>
           </p>
+          <div data-controller="passenger">
+            <button type="button" data-action="passenger#greet"> Add Passenger</button>
+            <template>
+              <%= sub_form.label :name, "Name:" %>
+              <%= sub_form.text_field :name %>
+              <%= sub_form.label :email, "Email:" %>
+              <%= sub_form.email_field :email %>
+            </template>
+          </div>
           <% end %>
           <%= hidden_field_tag 'booking[flight_id]', @selected_flight[:id]  %>
           <%= hidden_field_tag 'booking[num_of_passengers]', @num_of_passengers  %>
