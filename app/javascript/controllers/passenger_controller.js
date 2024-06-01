@@ -23,6 +23,11 @@ export default class extends Controller {
 
   remove() {
     let last = this.targetTarget.firstChild
-    last.remove(last)
+
+    if (last == null) {
+      alert("At least one passenger is required.")
+    } else {
+      last.remove(last)
+    }
   }
 }
