@@ -18,13 +18,11 @@ export default class extends Controller {
     let toReplaceNameName = tempClone.firstElementChild.nextSibling.nextSibling.name
     tempClone.firstElementChild.nextSibling.nextSibling.name = toReplaceNameName.replace( /\d/g, newId)
 
-    this.parentTarget.appendChild(tempClone)
+    this.targetTarget.appendChild(tempClone)
   }
 
   remove() {
-    let last = this.targetTarget.firstChild.nextSibling
-    console.log(last)
-    // let clon = temp.content.cloneNode(true);
-    last.remove()
+    let last = this.targetTarget.firstChild
+    last.remove(last)
   }
 }
