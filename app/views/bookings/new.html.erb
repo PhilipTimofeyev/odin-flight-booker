@@ -23,27 +23,28 @@
     </table>
 
 
-    <%= form_with model: @booking, data: { controller: 'passenger'}, method: :post do |form| %>
+    <%= form_with model: @booking, data: { controller: 'passenger', passenger_count_value: @num_of_passengers}, method: :post do |form| %>
         <div data-passenger-target="parent" style="padding:20px 0px;">
+
+          <%= form.fields_for :passengers do |sub_form| %>
+            <p id="formRow"> 
+              <%= sub_form.label :name, "Name:" %>
+              <%= sub_form.text_field :name %>
+              <%= sub_form.label :email, "Email:" %>
+              <%= sub_form.text_field :email %>
+            </p>
+          <% end %>
+
           <template data-passenger-target="temp">
             <%= form.fields_for :passengers do |sub_form| %>
-          <p>
-            <%= sub_form.label :name, "Name:" %>
-            <%= sub_form.text_field :name %>
-            <%= sub_form.label :email, "Email:" %>
-            <%= sub_form.text_field :email %>
-          </p>
-          <% end %>
+              <p id="formRow">
+                <%= sub_form.label :name, "Name:" %>
+                <%= sub_form.text_field :name %>
+                <%= sub_form.label :email, "Email:" %>
+                <%= sub_form.text_field :email %>
+              </p>
+            <% end %>
           </template>
-            <%= form.fields_for :passengers do |sub_form| %>
-          <p data-passenger-target="id"> 
-            <%= sub_form.label :name, "Name:" %>
-            <%= sub_form.text_field :name %>
-            <%= sub_form.label :email, "Email:" %>
-            <%= sub_form.text_field :email %>
-          </p>
-          <% end %>
-          <div data-passenger-target="target"></div>
         </div>
         <div>
 

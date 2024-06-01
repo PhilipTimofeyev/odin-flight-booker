@@ -1,8 +1,12 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = [ 'temp', 'target', 'parent', 'id']
-  static values = { count: 1}
+  static targets = [ 'temp', 'target', 'parent', 'count']
+  static values = { count: Number }
+
+  connect() {
+    console.log(this.countValue) // 10
+  }
 
   add() {
     let temp = this.tempTarget.content.firstChild.nextSibling;
@@ -18,16 +22,17 @@ export default class extends Controller {
     let toReplaceNameName = tempClone.firstElementChild.nextSibling.nextSibling.name
     tempClone.firstElementChild.nextSibling.nextSibling.name = toReplaceNameName.replace( /\d/g, newId)
 
-    this.targetTarget.appendChild(tempClone)
+    this.parentTarget.appendChild(tempClone)
   }
 
   remove() {
-    let last = this.targetTarget.firstChild
+    let last = document.getElementById("formRow")
 
-    if (last == null) {
+    if (this.countValue == 1) {
       alert("At least one passenger is required.")
     } else {
-      last.remove(last)
+      last.remove()
+      this.countValue--
     }
   }
 }
