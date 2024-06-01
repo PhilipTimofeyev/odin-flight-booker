@@ -31,20 +31,24 @@
             <%= sub_form.label :name, "Name:" %>
             <%= sub_form.text_field :name %>
             <%= sub_form.label :email, "Email:" %>
-            <%= sub_form.email_field :email %>
+            <%= sub_form.text_field :email %>
           </p>
           <% end %>
           </template>
             <%= form.fields_for :passengers do |sub_form| %>
-          <p>
+          <p data-passenger-target="id"> 
             <%= sub_form.label :name, "Name:" %>
             <%= sub_form.text_field :name %>
             <%= sub_form.label :email, "Email:" %>
-            <%= sub_form.email_field :email %>
+            <%= sub_form.text_field :email %>
           </p>
           <% end %>
           <div data-passenger-target="target"></div>
+        </div>
+        <div>
+
           <button type="button" data-action="passenger#add"> Add Passenger</button>
+          <button type="button" data-action="passenger#remove"> Remove Passenger</button>
 
           <%= hidden_field_tag 'booking[flight_id]', @selected_flight[:id]  %>
           <%= hidden_field_tag 'booking[num_of_passengers]', @num_of_passengers  %>
