@@ -7,13 +7,13 @@ class BookingsController < ApplicationController
 			@booking.passengers.build
 		end
 
-		# @selected_flight = Flight.all.find(booking_params[:flight_id])
-		@selected_flight = Rails.cache.read("json_flights").select {|flight| flight["icao24"] == booking_params[:flight_id]}.first
-		debugger
+		@selected_flight = Flight.where(icao_id: booking_params[:icao_id]).first
+		# @selected_flight = Rails.cache.read("json_flights").select {|flight| flight["icao24"] == booking_params[:flight_id]}.first
+		# debugger
 	end
 
 	def create
-		selected_flight = Flight.all.find(booking_params[:flight_id])
+		selected_flight = Flight.all.find(booking_params[:icao_id])
 
 		@booking = Booking.new(booking_params)
 
@@ -31,7 +31,7 @@ class BookingsController < ApplicationController
 	private
 
 	def booking_params
-		params.require(:booking).permit(:flight_id, :num_of_passengers, passengers_attributes: [:name, :email])
+		params.require(:booking).permit(:icao_id, :num_of_passengers, passengers_attributes: [:name, :email])
 	end
 
 end

@@ -33,12 +33,12 @@
 <%= form_with url: "/bookings/new", method: :get do |form| %>
 	<% @flights.map do |flight|%>
 		<ul>
-			<%= radio_button_tag "booking[flight_id]", flight["icao24"]%>
+			<%= radio_button_tag "booking[icao_id]", flight.icao_id%>
 			<%= hidden_field_tag 'booking[num_of_passengers]', @num_of_passengers%>
 
-		<li> <%= "Flight Number: #{flight["icao24"]}"%> </li>
-		<li> <%= "Departure Airport: #{flight["estDepartureAirport"]}"%> </li>
-		<li> <%= "Arrival Airport: #{flight["estArrivalAirport"]}"%> </li>
+		<li> <%= "Flight Number: #{flight.icao_id}"%> </li>
+		<li> <%= "Departure Airport: #{flight.departure_airport.code}"%> </li>
+		<li> <%= "Arrival Airport: #{flight.arrival_airport.code}"%> </li>
 		</ul>
 	<% end %>
 	<%= form.submit "Select" %>

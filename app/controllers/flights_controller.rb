@@ -4,8 +4,6 @@ class FlightsController < ApplicationController
 
 		if params[:date].present?
 			get_all_flights
-			add_airports
-			add_flights
 			get_airports
 
 			# debugger
@@ -15,7 +13,7 @@ class FlightsController < ApplicationController
 			# debugger
 			@flights = get_date_flights
 			@num_of_passengers = passenger_num_params[:num_of_passengers]
-			# debugger
+			debugger
 		end
 
 	end
@@ -23,16 +21,18 @@ class FlightsController < ApplicationController
 	def get_all_flights
 		# debugger
 		flight_date = date_params[:date]
-		flight_date_start = convert_to_unix(flight_date)
-		flight_date_end = (Date.parse(flight_date).to_time + 2.hours).to_i
+		Rails.cache.write("flight_date", flight_date)
 
-		# get_request = "https://opensky-network.org/api/flights/all?begin=#{flight_date_start}&end=#{flight_date_end}"
+		unless Flight.all.exists?(date: flight_date)
+			flight_date_start = convert_to_unix(flight_date)
+			flight_date_end = (Date.parse(flight_date).to_time + 2.hours).to_i
 
-		response = RestClient.get("https://opensky-network.org/api/flights/all?begin=#{flight_date_start}&end=#{flight_date_end}")
-		# response = RestClient.get("https://opensky-network.org/api/flights/all?begin=#{flight_date_start}&end=#{flight_date_end}")
-		@json = JSON.parse(response).uniq
+			response = RestClient.get("https://opensky-network.org/api/flights/all?begin=#{flight_date_start}&end=#{flight_date_end}")
+			@json = JSON.parse(response).uniq
 
-		Rails.cache.write("json_flights", @json)
+			add_airports
+			add_flights
+		end
 	end
 
 	def get_airports
@@ -43,11 +43,13 @@ class FlightsController < ApplicationController
 	end
 
 	def get_date_flights
-		arrival_airport = search_params[:arrival_airport]
-		departure_airport = search_params[:departure_airport]
-		Rails.cache.read("json_flights").select {|flight| flight["estArrivalAirport"] == arrival_airport && flight["estDepartureAirport"] == departure_airport}
+		req_arrival_airport = search_params[:arrival_airport]
+		req_departure_airport = search_params[:departure_airport]
 
-		# debugger
+		date = Rails.cache.read("flight_date")
+		date_flights = Flight.where(date: date)
+		# date_flights.select {|flight| flight.arrival_airport == arrival_airport && flight.departure_airport == departure_airport}
+		date_flights.where(arrival_airport: req_arrival_airport, departure_airport: req_departure_airport)
 	end
 
 	def add_airports
@@ -61,7 +63,7 @@ class FlightsController < ApplicationController
 	def add_flights
 		@json.each do |flight| 
 			unless Flight.all.exists?(icao_id: flight["icao24"])
-				Flight.create(icao_id: flight['icao24'], departure_airport_id: flight["estDepartureAirport"], arrival_airport_id: flight["estArrivalAirport"])
+				Flight.create(icao_id: flight['icao24'], departure_airport_id: flight["estDepartureAirport"], arrival_airport_id: flight["estArrivalAirport"], date: date_params[:date])
 			end
 		end
 	end

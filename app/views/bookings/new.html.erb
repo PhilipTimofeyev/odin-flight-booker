@@ -8,16 +8,15 @@
         <th><u>Flight #</u></th>
     	  <th><u>Departure Airport</u></th>
     	  <th><u>Arrival Airport</u></th>
-        <th><u>Departure Time</u></th>
-    	  <th><u>Duration</u></th>
+        <th><u>Departure Date</u></th>
     	  <th><u>Number of Passengers</u></th>
     	</tr>
       <tr>
-        <td><%=@selected_flight["icao24"]%></td>
-        <%# <td><%=@selected_flight.departure_airport.code%></td> %>
-        <%# <td><%=@selected_flight.arrival_airport.code%></td> %>
-        <%# <td><%=@selected_flight.time.strftime("%H:%M %p")%></td> %>
-        <%# <td><%="~ #{@selected_flight.flight_duration / 60} hours"%></td> %>
+        <td><%=@selected_flight.icao_id%></td>
+         <td><%=@selected_flight.departure_airport.code%> </td>
+         <td><%=@selected_flight.arrival_airport.code%> </td>
+         <td><%=Rails.cache.read("flight_date") %> </td>
+        <%# <td><%="~ #{@selected_flight.flight_duration / 60} hours"%>
         <td><%=@num_of_passengers%></td>
       </tr>
     </table>
