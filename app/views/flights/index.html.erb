@@ -15,11 +15,11 @@
 <%= form_with model: @flight, method: :get do |form| %>
 	<ul>
   	<%= form.label :query, "Departure airport:" %>
-  	<%= select_tag 'flight[departure_airport]', options_for_select(@airport_depart) %>
+  	<%= select_tag 'flight[departure_airport]', options_for_select(@airport_depart), :include_blank => '' %>
 	</ul>
 	<ul>
   	<%= form.label :query, "Arrival airport:" %>
-  	<%= select_tag 'flight[arrival_airport]', options_for_select(@airport_arrive.sort) %>
+  	<%= select_tag 'flight[arrival_airport]', options_for_select(@airport_arrive.sort), :include_blank => '' %>
 	</ul>
 	<ul>	
   	<%= label_tag(:num_of_passengers, "Number of Passengers") %>

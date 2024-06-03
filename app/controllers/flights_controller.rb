@@ -13,7 +13,7 @@ class FlightsController < ApplicationController
 			# debugger
 			@flights = get_date_flights
 			@num_of_passengers = passenger_num_params[:num_of_passengers]
-			debugger
+			# debugger
 		end
 
 	end
@@ -43,13 +43,15 @@ class FlightsController < ApplicationController
 	end
 
 	def get_date_flights
-		req_arrival_airport = search_params[:arrival_airport]
-		req_departure_airport = search_params[:departure_airport]
+		req_arrival_airport = filter_empty_params[:arrival_airport]
+		req_departure_airport = filter_empty_params[:departure_airport]
+
+		hsh = {arrival_airport: req_arrival_airport, departure_airport: req_departure_airport}
 
 		date = Rails.cache.read("flight_date")
 		date_flights = Flight.where(date: date)
 		# date_flights.select {|flight| flight.arrival_airport == arrival_airport && flight.departure_airport == departure_airport}
-		date_flights.where(arrival_airport: req_arrival_airport, departure_airport: req_departure_airport)
+		date_flights.where(hsh.compact)
 	end
 
 	def add_airports
