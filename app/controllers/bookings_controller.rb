@@ -8,14 +8,13 @@ class BookingsController < ApplicationController
 		end
 
 		@selected_flight = Flight.where(icao_id: booking_params[:icao_id]).first
-		# @selected_flight = Rails.cache.read("json_flights").select {|flight| flight["icao24"] == booking_params[:flight_id]}.first
-		# debugger
 	end
 
 	def create
-		selected_flight = Flight.all.find(booking_params[:icao_id])
+		selected_flight = Flight.where(icao_id:params[:booking][:flight_id])
 
-		@booking = Booking.new(booking_params)
+		@booking = Booking.new(better_params)
+		# debugger
 
 		if @booking.save
 			redirect_to @booking
@@ -24,7 +23,7 @@ class BookingsController < ApplicationController
 
 	def show
 		@booking = Booking.find(params[:id])
-		@seleced_flight = @booking.flight
+		@selected_flight = @booking.flight
 		@passengers = @booking.passengers
 	end
 
@@ -32,6 +31,10 @@ class BookingsController < ApplicationController
 
 	def booking_params
 		params.require(:booking).permit(:icao_id, :num_of_passengers, passengers_attributes: [:name, :email])
+	end
+
+	def better_params
+		params.require(:booking).permit(:flight_id, :num_of_passengers, passengers_attributes: [:name, :email])
 	end
 
 end
