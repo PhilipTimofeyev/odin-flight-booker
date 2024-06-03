@@ -32,11 +32,15 @@ class FlightsController < ApplicationController
 
 			add_airports
 			add_flights
+
+			@json
 		end
 	end
 
 	def get_airports
 		airports = Airport.all.map {|airport| airport.code}.sort
+
+		# debugger
 
 		@airport_depart = airports
 		@airport_arrive = airports
@@ -46,12 +50,12 @@ class FlightsController < ApplicationController
 		req_arrival_airport = filter_empty_params[:arrival_airport]
 		req_departure_airport = filter_empty_params[:departure_airport]
 
-		hsh = {arrival_airport: req_arrival_airport, departure_airport: req_departure_airport}
+		hsh = {arrival_airport: req_arrival_airport, departure_airport: req_departure_airport}.compact
 
 		date = Rails.cache.read("flight_date")
 		date_flights = Flight.where(date: date)
-		# date_flights.select {|flight| flight.arrival_airport == arrival_airport && flight.departure_airport == departure_airport}
-		date_flights.where(hsh.compact)
+		
+		date_flights.where(hsh)
 	end
 
 	def add_airports
