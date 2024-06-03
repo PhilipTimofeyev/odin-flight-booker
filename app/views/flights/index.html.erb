@@ -1,24 +1,33 @@
 <%= form_with model: @flight, method: :get do |form| %>
 	<ul>
-  	<%= form.label :query, "Departure airport:" %>
-  	<%= select_tag 'flight[departure_airport]', options_for_select(@airport_options) %>
-	</ul>
-	<ul>
-  	<%= form.label :query, "Arrival airport:" %>
-  	<%= select_tag 'flight[arrival_airport]', options_for_select(@airport_options.sort) %>
-	</ul>
-	<ul>	
-  	<%= label_tag(:num_of_passengers, "Number of Passengers") %>
-  	<%= select_tag  'flight[num_of_passengers]', options_for_select([1, 2, 3, 4]) %>
-	</ul>
-	<ul>
   	<%= form.label :query, "Date:" %>
-  	<%= select_tag 'flight[date]', options_for_select(@flight_date), :include_blank => true %>
+  	<%# <%= date_field("flight[date]", "flight_day", min: Date.parse("May 1 2024"), max: Date.parse("May 30 2024")) %> 
+
+  	<%= date_field_tag 'date[date]', value = nil, options = {min: Date.parse("June 1 2023"), max: Date.parse("June 30 2023")} %>
+  	<%# <%= select_tag 'flight[date]', options_for_select(@flight_date), :include_blank => true %>
 	</ul>
 	<ul>
   <%= form.submit "Search" %>
 </ul>
 <% end %>
+
+<% if @airport_depart && @airport_arrive %>
+<%= form_with model: @flight, method: :get do |form| %>
+	<ul>
+  	<%= form.label :query, "Departure airport:" %>
+  	<%= select_tag 'flight[departure_airport]', options_for_select(@airport_depart) %>
+	</ul>
+	<ul>
+  	<%= form.label :query, "Arrival airport:" %>
+  	<%= select_tag 'flight[arrival_airport]', options_for_select(@airport_arrive.sort) %>
+	</ul>
+	<ul>	
+  	<%= label_tag(:num_of_passengers, "Number of Passengers") %>
+  	<%= select_tag  'flight[num_of_passengers]', options_for_select([1, 2, 3, 4]) %>
+	</ul>
+	<%= form.submit "Search" %>
+	<% end %>
+	<% end %>
 
 <% if @flights %>
 <%= form_with url: "/bookings/new", method: :get do |form| %>
