@@ -35,9 +35,10 @@ class FlightsController < ApplicationController
 	end
 
 	def get_airports
-		# departing = Airport.all
-		@airport_depart = Airport.all.map {|airport| airport.code}.sort
-		@airport_arrive = Airport.all.map {|airport| airport.code}.sort
+		airports = Airport.all.map {|airport| airport.code}.sort
+
+		@airport_depart = airports
+		@airport_arrive = airports
 	end
 
 	def get_date_flights
@@ -52,6 +53,14 @@ class FlightsController < ApplicationController
 		@json.each do |flight| 
 			unless Airport.all.exists?(code: flight['estDepartureAirport'])
 				Airport.create(code: flight['estDepartureAirport']) unless (flight['estDepartureAirport']).nil?
+			end
+		end
+	end
+
+	def add_flights
+		@json.each do |flight| 
+			unless Flight.all.exists?(icao_id: flight["icao24"])
+				Flight.create(icao_id: flight['estDepartureAirport']
 			end
 		end
 	end
