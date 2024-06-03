@@ -5,6 +5,7 @@ class FlightsController < ApplicationController
 		if params[:date].present?
 			get_all_flights
 			add_airports
+			add_flights
 			get_airports
 
 			# debugger
@@ -60,7 +61,7 @@ class FlightsController < ApplicationController
 	def add_flights
 		@json.each do |flight| 
 			unless Flight.all.exists?(icao_id: flight["icao24"])
-				Flight.create(icao_id: flight['estDepartureAirport']
+				Flight.create(icao_id: flight['icao24'], departure_airport_id: flight["estDepartureAirport"], arrival_airport_id: flight["estArrivalAirport"])
 			end
 		end
 	end
