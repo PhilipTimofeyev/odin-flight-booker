@@ -27,21 +27,18 @@
 	</ul>
 	<%= form.submit "Search" %>
 	<% end %>
-	<% end %>
+<% end %>
 
 <% if @flights %>
 <%= form_with url: "/bookings/new", method: :get do |form| %>
 	<% @flights.map do |flight|%>
 		<ul>
-			<%= radio_button_tag "booking[flight_id]", flight.id%>
-			<%= hidden_field_tag 'booking[num_of_passengers]', @passengers[:num_of_passengers]  %>
+			<%= radio_button_tag "booking[flight_id]", flight["icao24"]%>
+			<%= hidden_field_tag 'booking[num_of_passengers]', @num_of_passengers%>
 
-		<li> <%= "Flight Number: #{flight.id}"%> </li>
-		<li> <%= "Departure Airport: #{flight.departure_airport.code}"%> </li>
-		<li> <%= "Arrival Airport: #{flight.arrival_airport.code}"%> </li>
-		<li> <%= "Date: #{flight.date.strftime("%m-%d-%y")}"%> </li>
-		<li> <%= "Time: #{flight.time.strftime("%H:%M %p")}"%> </li>
-		<li> <%= "Duration: ~#{flight.flight_duration/60} hours"%> </li>
+		<li> <%= "Flight Number: #{flight["icao24"]}"%> </li>
+		<li> <%= "Departure Airport: #{flight["estDepartureAirport"]}"%> </li>
+		<li> <%= "Arrival Airport: #{flight["estArrivalAirport"]}"%> </li>
 		</ul>
 	<% end %>
 	<%= form.submit "Select" %>

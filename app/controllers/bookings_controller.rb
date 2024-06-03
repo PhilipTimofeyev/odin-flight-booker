@@ -7,7 +7,9 @@ class BookingsController < ApplicationController
 			@booking.passengers.build
 		end
 
-		@selected_flight = Flight.all.find(booking_params[:flight_id])
+		# @selected_flight = Flight.all.find(booking_params[:flight_id])
+		@selected_flight = Rails.cache.read("json_flights").select {|flight| flight["icao24"] == booking_params[:flight_id]}.first
+		debugger
 	end
 
 	def create
