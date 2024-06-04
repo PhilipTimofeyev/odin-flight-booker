@@ -1,10 +1,9 @@
 class PassengerMailer < ApplicationMailer
-	default from: 'notifications@example.com'
+	default from: 'onewayvacation@happy.com'
 
-	def welcome_email
+	def booking_email
 	  @passenger = params[:passenger]
-	  debugger
-	  @url  = 'http://example.com/login'
-	  mail(to: @passenger.email, subject: 'Welcome to My Awesome Site')
+	  # debugger
+	  mail(to: @passenger.email, subject: "You're booked!")
 	end
 end
