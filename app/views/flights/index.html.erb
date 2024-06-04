@@ -11,7 +11,7 @@
 </ul>
 <% end %>
 
-<% if @airport_depart && @airport_arrive %>
+<% if @airport_depart%>
 <%= form_with model: @flight, method: :get do |form| %>
 	<ul>
   	<%= form.label :query, "Departure airport:" %>
