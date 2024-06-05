@@ -36,11 +36,12 @@ class FlightsController < ApplicationController
 
 	def get_airports
 		airports = Airport.all.map {|airport| airport.code}.sort
-
+		date = Rails.cache.read("flight_date")
 		# debugger
 
-		@airport_depart = airports
-		@airport_arrive = airports
+		#selects only airports with departing and arriving flights on that day
+		@airport_depart = Airport.joins(:departing_flights).where({departing_flights: {date: date}}).map {|airport| airport.code }.uniq.sort
+		@airport_arrive = Airport.joins(:arriving_flights).where({arriving_flights: {date: date}}).map {|airport| airport.code }.uniq.sort
 	end
 
 	def get_date_flights
@@ -56,7 +57,7 @@ class FlightsController < ApplicationController
 	end
 
 	def add_airports
-		debugger
+		# debugger
 		airports.each do |airport| 
 			unless Airport.all.exists?(code: airport)
 				Airport.create(code: airport)
