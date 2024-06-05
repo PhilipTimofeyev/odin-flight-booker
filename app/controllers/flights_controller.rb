@@ -5,12 +5,9 @@ class FlightsController < ApplicationController
 		if params[:date].present?
 			get_all_flights
 			get_airports
-
-			# debugger
 		end
 
 		if params[:flight].present?
-			# debugger
 			@flights = get_date_flights
 			@num_of_passengers = passenger_num_params[:num_of_passengers]
 			# debugger
@@ -59,19 +56,31 @@ class FlightsController < ApplicationController
 	end
 
 	def add_airports
-		@json.each do |flight| 
-			unless Airport.all.exists?(code: flight['estDepartureAirport'])
-				Airport.create(code: flight['estDepartureAirport']) unless (flight['estDepartureAirport']).nil?
+		debugger
+		airports.each do |airport| 
+			unless Airport.all.exists?(code: airport)
+				Airport.create(code: airport)
 			end
 		end
 	end
 
+	def select_non_nil_flights
+		non_nil_flights = @json.reject {|flight| flight["estDepartureAirport"].nil? || flight["estArrivalAirport"].nil? }
+	end
+
 	def add_flights
-		@json.each do |flight| 
+		select_non_nil_flights.each do |flight| 
 			unless Flight.all.exists?(icao_id: flight["icao24"])
 				Flight.create(icao_id: flight['icao24'], departure_airport_id: flight["estDepartureAirport"], arrival_airport_id: flight["estArrivalAirport"], date: date_params[:date])
 			end
 		end
+	end
+
+	def airports
+		dep = @json.map {|flight| flight["estDepartureAirport"]}
+		arr = @json.map {|flight| flight["estArrivalAirport"]}
+
+		[dep + arr].flatten.compact.uniq
 	end
 
 	def convert_to_unix(date)
