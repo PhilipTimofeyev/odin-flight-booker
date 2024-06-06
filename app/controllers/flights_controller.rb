@@ -1,34 +1,25 @@
 class FlightsController < ApplicationController
 
 	def index
-		# CallOpenSkyAPI.new(flight_date)
-
-
 		if params[:date].present?
-			@json = get_all_flights
-			# debugger
-			get_airports
+			date = date_params[:date]
+			# Rails.cache.write("flight_date", date)
+			# flights = Flight.get_flights(date)
+			# Flight.add_flights_to_db(flights, date)
 		end
 
 		if params[:flight].present?
 			@flights = get_date_flights
 			@num_of_passengers = passenger_num_params[:num_of_passengers]
-			# debugger
 		end
-
 	end
 
-	def get_all_flights
-		# debugger
-		flight_date = date_params[:date]
-		Rails.cache.write("flight_date", flight_date)
+	def new
+		@flight = Flight.new
+	end
 
-		unless Flight.all.exists?(date: flight_date)
-			@json = Opensky.new(flight_date).call
-
-			add_flights
-			@json
-		end
+	def create
+		
 	end
 
 	def get_airports
@@ -49,18 +40,6 @@ class FlightsController < ApplicationController
 		date_flights = Flight.where(date: date)
 		
 		date_flights.where(hsh)
-	end
-
-	def select_non_nil_flights
-		non_nil_flights = @json.reject {|flight| flight["estDepartureAirport"].nil? || flight["estArrivalAirport"].nil? }
-	end
-
-	def add_flights
-		select_non_nil_flights.each do |flight| 
-			unless Flight.all.exists?(icao_id: flight["icao24"])
-				Flight.create(icao_id: flight['icao24'], departure_airport_id: flight["estDepartureAirport"], arrival_airport_id: flight["estArrivalAirport"], date: date_params[:date])
-			end
-		end
 	end
 
 	private
