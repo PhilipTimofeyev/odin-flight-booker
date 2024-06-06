@@ -4,17 +4,13 @@ class Flight < ApplicationRecord
 	has_many :bookings
 	has_many :passengers, through: :bookings
 
+	validates_length_of :departure_airport, :minimum => 0, :allow_nil => false
+	validates_length_of :arrival_airport, :minimum => 0, :allow_nil => false
+
 	def self.get_flights(flight_date)
 		unless Flight.all.exists?(flight_date)
 			all_flights_json = Opensky.new(flight_date).call
-			clean_up_flights(all_flights_json)
 		end
-	end
-
-	def self.clean_up_flights(json)
-		#remove flights without departure or arrival airport
-
-		json.reject {|flight| flight["estDepartureAirport"].nil? || flight["estArrivalAirport"].nil? }
 	end
 
 	def self.add_flights_to_db(flights, date)
@@ -27,6 +23,4 @@ class Flight < ApplicationRecord
 			end
 		end
 	end
-
-
 end
