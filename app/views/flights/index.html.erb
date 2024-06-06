@@ -7,7 +7,7 @@
 	</ul>
 	<ul>
   	<%= form.label :query, "Arrival airport:" %>
-  	<%= select_tag 'flight[arrival_airport]', options_for_select(Airport.all.map{|airport| airport.code}), :include_blank => '' %>
+  	<%= select_tag 'flight[arrival_airport]', options_for_select(@airport_arrive), :include_blank => '' %>
 	</ul>
 	<ul>	
   	<%= label_tag(:num_of_passengers, "Number of Passengers") %>

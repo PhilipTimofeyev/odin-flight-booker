@@ -9,3 +9,6 @@ application.register("hello", HelloController)
 
 import PassengerController from "./passenger_controller"
 application.register("passenger", PassengerController)
+
+import FlightController from "./flight_controller"
+application.register("flight", FlightController)

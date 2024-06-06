@@ -1,18 +1,35 @@
-<%= form_with model: @flight do |form| %>
+<%= form_with(model: @flights, url: "/flights", method: "post") do |form| %>
 	<ul>
-  	<%= form.label :query, "Departure airport:" %>
-  	<%= select_tag 'flight[departure_airport]', options_for_select(Airport.all.map{|airport| airport.code}), :include_blank => '' %>
+  	<%= form.label :query, "Date:" %>
+  	<%# <%= date_field("flight[date]", "flight_day", min: Date.parse("May 1 2024"), max: Date.parse("May 30 2024")) %> 
+
+  	<%= date_field_tag 'date[date]', value = nil, options = {min: Date.parse("June 1 2023"), max: Date.parse("June 30 2023")} %>
+  	<%# <%= select_tag 'flight[date]', options_for_select(@flight_date), :include_blank => true %>
 	</ul>
 	<ul>
-  	<%= form.label :query, "Arrival airport:" %>
-  	<%= select_tag 'flight[arrival_airport]', options_for_select(Airport.all.map{|airport| airport.code}), :include_blank => '' %>
-	</ul>
-	<ul>	
-  	<%= label_tag(:num_of_passengers, "Number of Passengers") %>
-  	<%= select_tag  'flight[num_of_passengers]', options_for_select([1, 2, 3, 4]) %>
-	</ul>
-	<%= form.submit "Search" %>
+  <%= form.submit "Search" %>
+</ul>
 <% end %>
+
+<div data-controller="flight">
+	<%= form_with model: @flight do |form| %>
+		<ul>
+	  	<%= form.label :query, "Departure airport:" %>
+	  	<%= select_tag 'flight[departure_airport]', options_for_select(@airport_depart), :include_blank => '', data: { action: "change->flight#show"}%>
+		</ul>
+		<ul>
+	  	<%= form.label :query, "Arrival airport:" %>
+	  	<div data-flight-target="target"></div>
+	  	<%= select_tag 'flight[arrival_airport]', options_for_select(@airport_arrive), :include_blank => ''%>
+		</ul>
+		<ul>	
+	  	<%= label_tag(:num_of_passengers, "Number of Passengers") %>
+	  	<%= select_tag  'flight[num_of_passengers]', options_for_select([1, 2, 3, 4]) %>
+		</ul>
+		<%= form.submit "Search" %>
+	<% end %>
+
+</div>
 
 	<% if @flights %>
 	<%= form_with url: "/bookings/new", method: :get do |form| %>
