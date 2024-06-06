@@ -1,10 +1,14 @@
 class FlightsController < ApplicationController
 
 	def index
+		# CallOpenSkyAPI.new(flight_date)
+
 
 		if params[:date].present?
-			get_all_flights
+			@json = get_all_flights
 			get_airports
+			# debugger
+			# get_airports
 		end
 
 		if params[:flight].present?
@@ -21,16 +25,12 @@ class FlightsController < ApplicationController
 		Rails.cache.write("flight_date", flight_date)
 
 		unless Flight.all.exists?(date: flight_date)
-			flight_date_start = convert_to_unix(flight_date)
-			flight_date_end = (Date.parse(flight_date).to_time + 2.hours).to_i
+			json = Opensky.new(flight_date).call
 
-			response = RestClient.get("https://opensky-network.org/api/flights/all?begin=#{flight_date_start}&end=#{flight_date_end}")
-			@json = JSON.parse(response).uniq
+			# add_airports
+			# add_flights
 
-			add_airports
-			add_flights
-
-			@json
+			json
 		end
 	end
 
