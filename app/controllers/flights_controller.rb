@@ -6,9 +6,8 @@ class FlightsController < ApplicationController
 
 		if params[:date].present?
 			@json = get_all_flights
-			get_airports
 			# debugger
-			# get_airports
+			get_airports
 		end
 
 		if params[:flight].present?
@@ -25,19 +24,15 @@ class FlightsController < ApplicationController
 		Rails.cache.write("flight_date", flight_date)
 
 		unless Flight.all.exists?(date: flight_date)
-			json = Opensky.new(flight_date).call
+			@json = Opensky.new(flight_date).call
 
-			# add_airports
-			# add_flights
-
-			json
+			add_flights
+			@json
 		end
 	end
 
 	def get_airports
-		airports = Airport.all.map {|airport| airport.code}.sort
 		date = Rails.cache.read("flight_date")
-		# debugger
 
 		#selects only airports with departing and arriving flights on that day
 		@airport_depart = Airport.joins(:departing_flights).where({departing_flights: {date: date}}).map {|airport| airport.code }.uniq.sort
@@ -56,15 +51,6 @@ class FlightsController < ApplicationController
 		date_flights.where(hsh)
 	end
 
-	def add_airports
-		# debugger
-		airports.each do |airport| 
-			unless Airport.all.exists?(code: airport)
-				Airport.create(code: airport)
-			end
-		end
-	end
-
 	def select_non_nil_flights
 		non_nil_flights = @json.reject {|flight| flight["estDepartureAirport"].nil? || flight["estArrivalAirport"].nil? }
 	end
@@ -75,17 +61,6 @@ class FlightsController < ApplicationController
 				Flight.create(icao_id: flight['icao24'], departure_airport_id: flight["estDepartureAirport"], arrival_airport_id: flight["estArrivalAirport"], date: date_params[:date])
 			end
 		end
-	end
-
-	def airports
-		dep = @json.map {|flight| flight["estDepartureAirport"]}
-		arr = @json.map {|flight| flight["estArrivalAirport"]}
-
-		[dep + arr].flatten.compact.uniq
-	end
-
-	def convert_to_unix(date)
-		Date.parse(date).to_time.to_i
 	end
 
 	private
