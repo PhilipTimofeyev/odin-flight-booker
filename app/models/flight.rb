@@ -4,16 +4,17 @@ class Flight < ApplicationRecord
 	has_many :bookings
 	has_many :passengers, through: :bookings
 
-	validates_length_of :departure_airport, :minimum => 0, :allow_nil => false
-	validates_length_of :arrival_airport, :minimum => 0, :allow_nil => false
+	validates_length_of :departure_airport, :minimum => 4, :allow_nil => false
+	validates_length_of :arrival_airport, :minimum => 4, :allow_nil => false
 
 	def self.get_flights(flight_date)
-		unless Flight.all.exists?(flight_date)
-			all_flights_json = Opensky.new(flight_date).call
+		unless Flight.all.exists?(date: flight_date)
+			Opensky.new(flight_date).call
 		end
 	end
 
 	def self.add_flights_to_db(flights, date)
+		return if flights.nil?
 		flights.each do |flight| 
 			unless Flight.all.exists?(icao_id: flight["icao24"])
 				Flight.create(icao_id: flight['icao24'], 

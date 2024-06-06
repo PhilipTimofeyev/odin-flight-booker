@@ -1,4 +1,4 @@
-	<%= form_with(url: "/flights/new", method: "get") do |form| %>
+	<%= form_with(model: @flights, url: "/flights", method: "post") do |form| %>
 		<ul>
 	  	<%= form.label :query, "Date:" %>
 	  	<%# <%= date_field("flight[date]", "flight_day", min: Date.parse("May 1 2024"), max: Date.parse("May 30 2024")) %> 
@@ -9,4 +9,20 @@
 		<ul>
 	  <%= form.submit "Search" %>
 	</ul>
+	<% end %>
+
+	<%= form_with model: @flight do |form| %>
+		<ul>
+	  	<%= form.label :query, "Departure airport:" %>
+	  	<%= select_tag 'flight[departure_airport]', options_for_select(Airport.all.map{|airport| airport.code}), :include_blank => '' %>
+		</ul>
+		<ul>
+	  	<%= form.label :query, "Arrival airport:" %>
+	  	<%= select_tag 'flight[arrival_airport]', options_for_select(Airport.all.map{|airport| airport.code}), :include_blank => '' %>
+		</ul>
+		<ul>	
+	  	<%= label_tag(:num_of_passengers, "Number of Passengers") %>
+	  	<%= select_tag  'flight[num_of_passengers]', options_for_select([1, 2, 3, 4]) %>
+		</ul>
+		<%= form.submit "Search" %>
 	<% end %>

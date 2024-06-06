@@ -1,12 +1,9 @@
 class FlightsController < ApplicationController
 
-	def index
-		if params[:date].present?
-			date = date_params[:date]
-			# Rails.cache.write("flight_date", date)
-			# flights = Flight.get_flights(date)
-			# Flight.add_flights_to_db(flights, date)
-		end
+	def show
+		date = Rails.cache.read("flight_date")
+		@airport_depart = Airport.joins(:departing_flights).where({departing_flights: {date: date}}).map {|airport| airport.code }.uniq.sort
+		@airport_arrive = Airport.joins(:arriving_flights).where({arriving_flights: {date: date}}).map {|airport| airport.code }.uniq.sort
 
 		if params[:flight].present?
 			@flights = get_date_flights
@@ -14,12 +11,16 @@ class FlightsController < ApplicationController
 		end
 	end
 
-	def new
-		@flight = Flight.new
-	end
-
 	def create
-		
+		# debugger
+		flight_date = date_params[:date]
+		Rails.cache.write("flight_date", flight_date)
+
+		flights = Flight.get_flights(flight_date)
+
+		Flight.add_flights_to_db(flights, flight_date)
+
+		redirect_to "/flights/show"
 	end
 
 	def get_airports
