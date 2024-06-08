@@ -2,6 +2,7 @@ class FlightsController < ApplicationController
 
 	def show
 		date = Rails.cache.read("flight_date")
+
 		@airport_depart = Airport.joins(:departing_flights).where({departing_flights: {date: date}}).map {|airport| airport.code }.uniq.sort
 		# @airport_arrive = Airport.joins(:arriving_flights).where({arriving_flights: {date: date}}).map {|airport| airport.code }.uniq.sort
 		@airport_arrive = ""
@@ -12,13 +13,17 @@ class FlightsController < ApplicationController
 		end
 	end
 
-	def index
-		date = Rails.cache.read("flight_date")
-		if params["dep_airport"].present?
-			@airport_arrive = Airport.joins(:arriving_flights).where({arriving_flights: {date: date, departure_airport: params[:dep_airport]}}).map {|airport| airport.code }.uniq.sort
-			# debugger
-		end
+	# def index
+	# 	date = Rails.cache.read("flight_date")
+	# 	if params["dep_airport"].present?
+	# 		@airport_arrive = Airport.joins(:arriving_flights).where({arriving_flights: {date: date, departure_airport: params[:dep_airport]}}).map {|airport| airport.code }.uniq.sort
+	# 		# debugger
+	# 	end
 
+	# end
+
+	def index
+		
 	end
 
 	def create
