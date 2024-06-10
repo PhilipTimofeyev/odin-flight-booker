@@ -1,16 +1,27 @@
+  <h1>Find Flights</h1>
 
-<%= form_with model: @flight do |form| %>
-	<ul>
-  	<%= form.label :query, "Departure airport:" %>
-  	<%= select_tag 'flight[departure_airport]', options_for_select(Airport.all.map{|airport| airport.code}), :include_blank => '' %>
-	</ul>
-	<ul>
-  	<%= form.label :query, "Arrival airport:" %>
-  	<%= select_tag 'flight[arrival_airport]', options_for_select(Airport.all.map{|airport| airport.code}), :include_blank => '' %>
-	</ul>
-	<ul>	
-  	<%= label_tag(:num_of_passengers, "Number of Passengers") %>
-  	<%= select_tag  'flight[num_of_passengers]', options_for_select([1, 2, 3, 4]) %>
-	</ul>
-	<%= form.submit "Search" %>
-<% end %>
+  <%= form_with model: @flight, url: "/flights/show", method: "get" do |form| %>
+    <fieldset>
+    	<%= form.label :query, "Date:" %>
+    	<%= date_field_tag 'flight[date]', value = nil, options = {min: Date.parse("June 1 2023"), max: Date.parse("June 30 2023")} %>
+      <button formmethod="get" formaction="<%= new_flight_path %>">Select Date</button>
+    </fieldset>
+
+    <fieldset>
+    	<%= form.label :departure_airport %>
+    	<%= form.select :departure_airport_id, Airport.joins(:departing_flights).where({departing_flights: {date: @flight.date}}).map {|airport| airport.code }.uniq.sort %>
+    	<button formmethod="get" formaction="<%= new_flight_path %>">Select Departing Airport</button>
+    </fieldset>
+
+    <fieldset>
+    	<%= form.label :arrival_airport %>
+    	<%= form.select :arrival_airport_id, Airport.joins(:arriving_flights).where({arriving_flights: {date: @flight.date, departure_airport: @flight.departure_airport}}).map {|airport| airport.code }.uniq.sort %>
+    </fieldset>
+
+    <fieldset>
+    	<%= label_tag(:num_of_passengers, "Number of Passengers") %>
+    	<%= select_tag  'flight[num_of_passengers]', options_for_select([1, 2, 3, 4]) %>
+    </fieldset>
+
+    <%= form.button "Show Flights"%>
+  <% end %>
