@@ -3,7 +3,7 @@
   <%= form_with model: @flight, url: "/flights/show", method: "get" do |form| %>
     <fieldset>
     	<%= form.label :query, "Date:" %>
-    	<%= date_field_tag 'flight[date]', value = nil, options = {min: Date.parse("June 1 2023"), max: Date.parse("June 30 2023")} %>
+    	<%= date_field_tag 'flight[date]', value = @flight.date, options = {min: Date.parse("June 1 2023"), max: Date.parse("June 30 2023")} %>
       <button formmethod="get" formaction="<%= new_flight_path %>">Select Date</button>
     </fieldset>
 
