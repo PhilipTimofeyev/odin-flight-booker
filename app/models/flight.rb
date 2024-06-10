@@ -6,22 +6,21 @@ class Flight < ApplicationRecord
 
 	validates_length_of :departure_airport, :minimum => 4, :allow_nil => false
 	validates_length_of :arrival_airport, :minimum => 4, :allow_nil => false
+	validates :icao_id, uniqueness: true
 
 	def self.get_flights(flight_date)
-		unless Flight.all.exists?(date: flight_date)
+		# unless Flight.all.exists?(date: flight_date)
 			Opensky.new(flight_date).call
-		end
+		# end
 	end
 
-	def self.add_flights_to_db(flights, date)
-		return if flights.nil?
+	def self.create_flights(flights, date)
+		# return Flight.where(date: date) unless flights
 		flights.each do |flight| 
-			unless Flight.all.exists?(icao_id: flight["icao24"])
-				Flight.create(icao_id: flight['icao24'], 
-											departure_airport_id: flight["estDepartureAirport"], 
-											arrival_airport_id: flight["estArrivalAirport"], 
-											date: date)
+			Flight.create(icao_id: flight['icao24'], 
+										departure_airport_id: flight["estDepartureAirport"], 
+										arrival_airport_id: flight["estArrivalAirport"], 
+										date: date)
 			end
-		end
 	end
 end
