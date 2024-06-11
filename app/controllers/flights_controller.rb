@@ -3,14 +3,16 @@ class FlightsController < ApplicationController
 
 	def show
 		# debugger
-		@flights = Flight.where(flight_params)
+		@flights = Flight.where(flight_params.except(:num_of_passengers))
+		@num_of_passengers = flight_params[:num_of_passengers].to_i
+		# debugger
 	end
 
 	def new
 		#calls method to call API if only dates param is submitted
 		create if flight_params.keys.count == 1
 
-		@flight = Flight.new(flight_params)
+		@flight = Flight.new(flight_params.except(:num_of_passengers))
 	end
 
 
@@ -27,11 +29,11 @@ class FlightsController < ApplicationController
 	private
 
   def flight_params
-		params.fetch(:flight, {}).permit(:date, :departure_airport_id, :arrival_airport_id)
+		params.fetch(:flight, {}).permit(:date, :departure_airport_id, :arrival_airport_id, :num_of_passengers)
   end
 
-  def booking_params
-  	params.permit(:date, :departure_airport_id, :arrival_airport_id, :num_of_passengers)
+  def passenger_params
+  	params.permit(:num_of_passengers)
   end
 
 end
