@@ -19,10 +19,10 @@ class FlightsController < ApplicationController
 	def create
 		flight_date = flight_params[:date]
 
-			unless Flight.all.exists?(date: flight_date)
-				flights = Flight.get_flights(flight_date)
-				Flight.create_flights(flights, flight_date)
-			end
+		unless Flight.all.exists?(date: flight_date)
+			flights = Flight.get_flights(flight_date)
+			Flight.create_flights(flights, flight_date)
+		end
 
 	end
 
@@ -30,10 +30,6 @@ class FlightsController < ApplicationController
 
   def flight_params
 		params.fetch(:flight, {}).permit(:date, :departure_airport_id, :arrival_airport_id, :num_of_passengers)
-  end
-
-  def passenger_params
-  	params.permit(:num_of_passengers)
   end
 
 end

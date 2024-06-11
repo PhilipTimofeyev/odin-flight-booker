@@ -1,5 +1,5 @@
-  <h1>Find Flights</h1>
-
+<div style="text-align:center;">
+	<h1>Find Flights</h1>
   <%= form_with model: @flight, url: "/flights/show", method: "get" do |form| %>
     <fieldset>
     	<%= form.label :query, "Date:" %>
@@ -25,3 +25,4 @@
 
     <%= form.button "Show Flights"%>
   <% end %>
+</div>

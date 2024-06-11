@@ -1,4 +1,5 @@
-
+<div style="text-align:center;">
+	<h1>Available Flights</h1>
 	<%= form_with url: "/bookings/new", method: :get do |form| %>
 		<% @flights.map do |flight|%>
 			<ul>
@@ -12,3 +13,4 @@
 		<% end %>
 		<%= form.submit "Select" %>
 		<% end %>
+	</div>
