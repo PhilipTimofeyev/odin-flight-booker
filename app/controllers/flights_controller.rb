@@ -10,7 +10,7 @@ class FlightsController < ApplicationController
 
 	def new
 		#calls method to call API if only dates param is submitted
-		create if flight_params.keys.count == 1
+		create if flight_params.keys.count >= 1
 
 		@flight = Flight.new(flight_params.except(:num_of_passengers))
 	end
