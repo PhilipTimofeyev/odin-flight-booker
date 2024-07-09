@@ -1,32 +1,30 @@
-<div>
+<div class="mx-auto">
 	<h1 class="text-center">Find Flights</h1>
   <%= form_with model: @flight, url: "/flights/show", method: "get" do |form| %>
   <div class="flex gap-4 flex-col">
     <fieldset class="text-xl flex flex-col text-center gap-2 ">
-    	<%= form.label :query, "Travel Date:", class:"font-black" %>
+    	<%= form.label :query, "Travel Date", class:"font-black text-2xl" %>
     	<%= date_field_tag 'flight[date]', value = @flight.date, options = {min: Date.parse("June 1 2023"), max: Date.parse("June 30 2023")} %>
       <button formmethod="get" formaction="<%= new_flight_path %>" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Select</button>
     </fieldset>
 
     <fieldset class="text-xl flex flex-col text-center gap-2">
-    	<%= form.label :query, "Departing Airport", class:"font-black"  %>
+    	<%= form.label :query, "Departing Airport", class:"font-black text-2xl"  %>
     	<%= form.select :departure_airport_id, Airport.joins(:departing_flights).where({departing_flights: {date: @flight.date}}).map {|airport| airport.code }.uniq.sort %>
     	<button formmethod="get" formaction="<%= new_flight_path %>" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Select</button>
     </fieldset>
 
     <fieldset class="text-xl flex flex-col text-center gap-2">
-    	<%= form.label :query, "Arrival Airport", class:"font-black"  %>
+    	<%= form.label :query, "Arrival Airport", class:"font-black text-2xl"  %>
     	<%= form.select :arrival_airport_id, Airport.joins(:arriving_flights).where({arriving_flights: {date: @flight.date, departure_airport: @flight.departure_airport}}).map {|airport| airport.code }.uniq.sort %>
     </fieldset>
 
     <fieldset class="text-xl flex flex-col text-center gap-2">
-    	<%= label_tag(:num_of_passengers, "Number of Passengers", class:"font-black" ) %>
+    	<%= label_tag(:num_of_passengers, "Number of Passengers", class:"font-black text-2xl" ) %>
     	<%= select_tag  'flight[num_of_passengers]', options_for_select([1, 2, 3, 4]) %>
     </fieldset>
 
-    <div class="text-xl text-center">
-      <%= form.button "Show Flights", class:"bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"%>
-    </div>
+      <%= form.button "Show Flights", class:"bg-red-900 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xl"%>
   </div>
   <% end %>
 </div>
