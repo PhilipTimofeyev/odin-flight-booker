@@ -1,16 +1,21 @@
-<div style="text-align:center;">
-	<h1>Available Flights</h1>
+<div class="mx-auto border-8 border-slate-300 rounded p-5 bg-white w-2/5">
+	<h1 class="text-center">Available Flights</h1>
 	<%= form_with url: "/bookings/new", method: :get do |form| %>
+	<div class="flex flex-col">
 		<% @flights.map do |flight|%>
-			<ul>
-				<%= radio_button_tag "booking[icao_id]", flight.icao_id%>
-				<%= hidden_field_tag 'booking[num_of_passengers]', @num_of_passengers%>
-
-			<li> <%= "Flight Number: #{flight.icao_id}"%> </li>
-			<li> <%= "Departure Airport: #{flight.departure_airport.code}"%> </li>
-			<li> <%= "Arrival Airport: #{flight.arrival_airport.code}"%> </li>
+			<ul class="flex items-center border-4 px-4 rounded border-slate-400">
+				<div>
+					<%= radio_button_tag "booking[icao_id]", flight.icao_id%>
+					<%= hidden_field_tag 'booking[num_of_passengers]', @num_of_passengers%>
+				</div>
+				<div class="ml-14 font-black text-lg">
+					<li> <%= "Flight Number: #{flight.icao_id}"%> </li>
+					<li> <%= "Departure Airport: #{flight.departure_airport.code}"%> </li>
+					<li> <%= "Arrival Airport: #{flight.arrival_airport.code}"%> </li>
+				</div>
 			</ul>
 		<% end %>
-		<%= form.submit "Select" %>
-		<% end %>
+		<%= form.submit "Select", class:"bg-red-900 hover:bg-red-700 text-white font-bold py-2 px-4 rounded text-xl" %>
 	</div>
+	<% end %>
+</div>

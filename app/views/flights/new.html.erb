@@ -1,5 +1,5 @@
-<div class="mx-auto border-8 border-slate-300 rounded p-5 bg-white">
-	<h1 class="text-center ">Search Flights</h1>
+<div class="mx-auto border-8 border-slate-300 rounded p-5 bg-white w-2/5">
+	<h1 class="text-center">Search Flights</h1>
   <%= form_with model: @flight, url: "/flights/show", method: "get" do |form| %>
   <div class="flex gap-4 flex-col">
     <fieldset class="text-xl flex flex-col text-center gap-2 ">
@@ -9,7 +9,7 @@
     </fieldset>
 
     <fieldset class="text-xl flex flex-col text-center gap-2">
-    	<%= form.label :query, "Departing Airport", class:"font-black text-2xl"  %>
+    	<%= form.label :query, "Departure Airport", class:"font-black text-2xl"  %>
     	<%= form.select :departure_airport_id, Airport.joins(:departing_flights).where({departing_flights: {date: @flight.date}}).map {|airport| airport.code }.uniq.sort %>
     	<button formmethod="get" formaction="<%= new_flight_path %>" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Select</button>
     </fieldset>
@@ -24,7 +24,7 @@
     	<%= select_tag  'flight[num_of_passengers]', options_for_select([1, 2, 3, 4]) %>
     </fieldset>
 
-      <%= form.button "Show Flights", class:"bg-red-900 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xl"%>
+      <%= form.button "Show Flights", class:"bg-red-900 hover:bg-red-700 text-white font-bold py-2 px-4 rounded text-xl"%>
   </div>
   <% end %>
 </div>
