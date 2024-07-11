@@ -21,7 +21,7 @@
       </tr>
     </table>
 
-    <h2 class="text-center">Passenger(s) Info</h2>
+    <h2 class="text-center">Passenger(s):</h2>
     <%= form_with model: @booking, data: { controller: 'passenger', passenger_count_value: @num_of_passengers}, method: :post do |form| %>
         <div data-passenger-target="parent">
 
@@ -31,6 +31,9 @@
                   <%= sub_form.text_field :name, class:"mr-4" %>
                   <%= sub_form.label :email, "Email:", class:"font-black text-lg" %>
                   <%= sub_form.text_field :email %>
+                  <% @booking.errors.each do |message| %>
+                    <div><%= message %></div>
+                  <% end %>
             </p>
           <% end %>
 
