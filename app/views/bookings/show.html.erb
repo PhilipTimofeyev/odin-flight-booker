@@ -1,36 +1,17 @@
 <div class="mx-auto border-8 border-slate-300 rounded p-5 bg-white w-3/4">
 	<center>
-	<h1> You're Booked!</h1>
-
-	<h2> Flight Info </h2>
-
-	<table class="table-auto text-lg">
-	  <thead>
-	    <tr>
-	      <th>Flight #</th>
-	      <th>Departure Airport</th>
-	      <th>Arrival Airport</th>
-	      <th>Departure Date</th>
-	      <th>Number of Passengers</th>
-	    </tr>
-	  </thead>
-	  <tr>
-	    <td><%=@selected_flight.icao_id%></td>
-	    <td><%=@selected_flight.departure_airport.code%> </td>
-	    <td><%=@selected_flight.arrival_airport.code%> </td>
-	    <td><%=@selected_flight.date %> </td>
-	    <td><%=@num_of_passengers%></td>
-	  </tr>
-	</table>
+		<%= render 'flightinfo' %>
 
 	<h2> Passenger(s) </h2>
 
 	<% @passengers.map do |passenger|%>
 		<table class="table-auto text-lg">
+			<thead>
 			<tr>
 		    <th>Name</th>
 			  <th>Email</th>
 			</tr>
+			</thead>
 		  <tr>
 		    <td><%=passenger.name%></td>
 		    <td><%=passenger.email%></td>

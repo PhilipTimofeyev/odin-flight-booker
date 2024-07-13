@@ -1,0 +1,20 @@
+<h1 class="text-center">Flight Info</h1>
+
+<table class="table-auto text-lg">
+  <thead>
+    <tr>
+      <th>Flight #</th>
+      <th>Departure Airport</th>
+      <th>Arrival Airport</th>
+      <th>Departure Date</th>
+      <th>Number of Passengers</th>
+    </tr>
+  </thead>
+  <tr>
+    <td><%=@selected_flight.icao_id%></td>
+    <td><%=@selected_flight.departure_airport.code%> </td>
+    <td><%=@selected_flight.arrival_airport.code%> </td>
+    <td><%=@selected_flight.date %> </td>
+    <td><%=@num_of_passengers%></td>
+  </tr>
+</table>
