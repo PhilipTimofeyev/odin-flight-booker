@@ -12,7 +12,7 @@
           <div>
           <% if @booking.errors.any? %>
             <% @booking.errors.each do |message| %>
-              <div class="bg-red-300 w-1/2 font-black"><%= message.full_message %></div>
+              <div class="bg-red-300 w-1/2 font-black m-3 rounded"><%= message.full_message %></div>
             <% end %>
           <% end %>
         </div>
