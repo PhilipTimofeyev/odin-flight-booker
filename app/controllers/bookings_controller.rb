@@ -7,21 +7,23 @@ class BookingsController < ApplicationController
 			@booking.passengers.build
 		end
 
-		@selected_flight = Flight.where(icao_id: booking_params[:icao_id]).first
+		@selected_flight = Flight.where(icao_id: booking_params[:icao_id]).first || Rails.cache.read("selected_flight") 
+		Rails.cache.write("selected_flight", @selected_flight)
+		Rails.cache.write("num_of_passengers", @num_of_passengers)
 	end
 
 	def create
-		selected_flight = Flight.where(icao_id:params[:booking][:flight_id])
-
+		@selected_flight = Rails.cache.read("selected_flight") 
+		@num_of_passengers = Rails.cache.read("num_of_passengers") 
 		@booking = Booking.new(better_params)
-		# debugger
 
 		if @booking.save
 			@booking.passengers.each do |passenger|
-				# debugger
-				PassengerMailer.with(passenger: passenger).booking_email.deliver
+				# PassengerMailer.with(passenger: passenger).booking_email.deliver
 			end
 			redirect_to @booking
+		else
+			render :new, status: :unprocessable_entity
 		end
 	end
 
@@ -29,6 +31,7 @@ class BookingsController < ApplicationController
 		@booking = Booking.find(params[:id])
 		@selected_flight = @booking.flight
 		@passengers = @booking.passengers
+		@num_of_passengers = @booking.passengers.count
 	end
 
 	private

@@ -5,7 +5,7 @@ export default class extends Controller {
   static values = { count: Number }
 
   connect() {
-    console.log(this.countValue) // 10
+    // console.log(this.countValue) // 10
   }
 
   add() {
@@ -26,13 +26,13 @@ export default class extends Controller {
   }
 
   remove() {
-    let last = document.getElementById("formRow")
+    let last = document.getElementById("formRowTemp")
 
-    if (this.countValue == 1) {
+    if (last == null) {
       alert("At least one passenger is required.")
     } else {
       last.remove()
-      this.countValue--
     }
   }
+
 }

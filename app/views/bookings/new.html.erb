@@ -22,41 +22,6 @@
     </table>
 
     <h2 class="text-center">Passenger(s):</h2>
-    <%= form_with model: @booking, data: { controller: 'passenger', passenger_count_value: @num_of_passengers}, method: :post do |form| %>
-        <div data-passenger-target="parent">
-
-          <%= form.fields_for :passengers do |sub_form| %>
-            <p id="formRow"> 
-                  <%= sub_form.label :name, "Name:", class:"font-black text-lg" %>
-                  <%= sub_form.text_field :name, class:"mr-4" %>
-                  <%= sub_form.label :email, "Email:", class:"font-black text-lg" %>
-                  <%= sub_form.text_field :email %>
-                  <% @booking.errors.each do |message| %>
-                    <div><%= message %></div>
-                  <% end %>
-            </p>
-          <% end %>
-
-          <template data-passenger-target="temp">
-            <%= form.fields_for :passengers do |sub_form| %>
-              <p id="formRow">
-                <%= sub_form.label :name, "Name:", class:"font-black text-lg" %>
-                <%= sub_form.text_field :name, class:"mr-4" %>
-                <%= sub_form.label :email, "Email:", class:"font-black text-lg" %>
-                <%= sub_form.text_field :email %>
-              </p>
-            <% end %>
-          </template>
-        </div>
-        <div>
-
-          <button type="button" data-action="passenger#add" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 text-lg px-4 rounded"> Add</button>
-          <button type="button" data-action="passenger#remove" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 text-lg rounded"> Remove</button>
-
-          <%= hidden_field_tag 'booking[flight_id]', @selected_flight[:id]  %>
-          <%= hidden_field_tag 'booking[num_of_passengers]', @num_of_passengers  %>
-          </div>
-        <p> <%= form.submit "Book Flight", class:"bg-red-900 hover:bg-red-700 text-white font-bold py-2  rounded text-xl w-1/4 mt-2" %> </p>
-    <% end %>
+    <%= render 'form' %>
   </center>
 </div>
