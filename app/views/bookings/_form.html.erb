@@ -7,7 +7,7 @@
           <%= sub_form.label :name, "Name:", class:"font-black text-lg content-center mr-3" %>
           <%= sub_form.text_field :name, class:"mr-4" %>
           <%= sub_form.label :email, "Email:", class:"font-black text-lg content-center mr-3" %>
-          <%= sub_form.text_field :email %>
+          <%= sub_form.email_field :email %>
           </div>
           <div>
           <% if @booking.errors.any? %>
