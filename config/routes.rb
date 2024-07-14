@@ -11,6 +11,5 @@ Rails.application.routes.draw do
   root "flights#new"
 
   resources :flights
-  resources :home
   resources :bookings, only:[:index, :new, :create, :show]
 end

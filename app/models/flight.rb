@@ -9,13 +9,10 @@ class Flight < ApplicationRecord
 	validates :icao_id, uniqueness: true
 
 	def self.get_flights(flight_date)
-		# unless Flight.all.exists?(date: flight_date)
-			Opensky.new(flight_date).call
-		# end
+		Opensky.new(flight_date).call
 	end
 
 	def self.create_flights(flights, date)
-		# return Flight.where(date: date) unless flights
 		flights.each do |flight| 
 			Flight.create(icao_id: flight['icao24'], 
 										departure_airport_id: flight["estDepartureAirport"], 

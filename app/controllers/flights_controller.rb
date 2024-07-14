@@ -2,10 +2,8 @@ class FlightsController < ApplicationController
 	helper_method :create
 
 	def show
-		# debugger
 		@flights = Flight.where(flight_params.except(:num_of_passengers))
 		@num_of_passengers = flight_params[:num_of_passengers].to_i
-		# debugger
 	end
 
 	def new
