@@ -4,9 +4,9 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
-    <h1>OneStopVacation Flight Booked!</h1>
+    <h1>OneWay Vacations Flight Booked!</h1>
     <p>
-      You have successfully booked up your flight, <%= @passenger.name %>!
+      You have successfully booked your one-way flight, <%= @passenger.name %>!
     </p>
     <p>
       <table border="2" style="width:40%;padding:10px;">
@@ -15,16 +15,17 @@
           <th><u>Departure Airport</u></th>
           <th><u>Arrival Airport</u></th>
           <th><u>Departure Date</u></th>
-          <!-- <th><u>Number of Passengers</u></th> -->
+          <th><u>Number of Passengers</u></th>
         </tr>
         <tr>
           <td><%=@passenger.booking.flight.icao_id%></td>
           <td><%=@passenger.booking.flight.departure_airport.code%></td>
           <td><%=@passenger.booking.flight.arrival_airport.code%></td>
-          <td><%=Rails.cache.read("flight_date")%></td>
+          <td><%=@passenger.booking.flight.date%></td>
+          <td><%=@passenger.booking.passengers.count%></td>
         </tr>
       </table>
     </p>
-    <p>Thanks for booking with OneStopVacation, have a great day!</p>
+    <p>Thanks for booking with OneWayVacation, have a great trip!</p>
   </body>
 </html>
